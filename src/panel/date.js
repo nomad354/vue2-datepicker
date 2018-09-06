@@ -10,7 +10,7 @@ export default {
     endAt: null,
     dateFormat: {
       type: String,
-      default: 'YYYY-MM-DD'
+      default: 'DD/MM/YYYY'
     },
     calendarMonth: {
       default: new Date().getMonth()
@@ -122,7 +122,6 @@ export default {
           <td
             class="cell"
             {...attrs}
-            title={this.getCellTitle(date)}
             onClick={this.selectDate.bind(this, date)}>
             {date.day}
           </td>

@@ -23,23 +23,12 @@
         :placeholder="innerPlaceholder"
         @input="handleInput"
         @change="handleChange">
-      <span class="mx-input-append">
-        <slot name="calendar-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200 200" class="mx-calendar-icon">
-            <rect x="13" y="29" rx="14" ry="14" width="174" height="158" fill="transparent" />
-            <line x1="46" x2="46" y1="8" y2="50" />
-            <line x1="154" x2="154" y1="8" y2="50" />
-            <line x1="13" x2="187" y1="70" y2="70" />
-            <text x="50%" y="135" font-size="90" stroke-width="1" text-anchor="middle" dominant-baseline="middle">{{new Date().getDate()}}</text>
-          </svg>
-        </slot>
-      </span>
       <span
         v-if="showClearIcon"
         class="mx-input-append mx-clear-wrapper"
         @click.stop="clearDate">
         <slot name="mx-clear-icon">
-          <i class="mx-input-icon mx-clear-icon"></i>
+          ×
         </slot>
       </span>
     </div>
@@ -47,17 +36,6 @@
       :style="position"
       v-show="popupVisible"
       ref="calendar">
-      <slot name="header">
-        <div class="mx-shortcuts-wrapper"
-          v-if="range && innerShortcuts.length">
-          <button
-            type="button"
-            class="mx-shortcuts"
-            v-for="(range, index) in innerShortcuts"
-            :key="index"
-            @click="selectRange(range)">{{range.text}}</button>
-        </div>
-      </slot>
       <calendar-panel
         v-if="!range"
         v-bind="$attrs"
@@ -70,7 +48,6 @@
       <div class="mx-range-wrapper"
         v-else>
         <calendar-panel
-          style="box-shadow:1px 0 rgba(0, 0, 0, .1)"
           v-bind="$attrs"
           :type="innerType"
           :date-format="innerDateFormat"
@@ -78,6 +55,7 @@
           :end-at="currentValue[1]"
           :start-at="null"
           :visible="popupVisible"
+          caption="Date from"
           @select-date="selectStartDate"
           @select-time="selectStartTime"></calendar-panel>
         <calendar-panel
@@ -88,6 +66,7 @@
           :start-at="currentValue[0]"
           :end-at="null"
           :visible="popupVisible"
+          caption="Date to"
           @select-date="selectEndDate"
           @select-time="selectEndTime"></calendar-panel>
       </div>
@@ -131,7 +110,7 @@ export default {
     },
     format: {
       type: String,
-      default: 'YYYY-MM-DD'
+      default: 'DD/MM/YYYY'
     },
     dateFormat: {
       type: String // format the time header and date tooltip
@@ -146,7 +125,7 @@ export default {
     },
     rangeSeparator: {
       type: String,
-      default: '~'
+      default: '-'
     },
     width: {
       type: [String, Number],

@@ -1,37 +1,51 @@
 <template>
   <div class="mx-calendar">
+    <p>{{ caption }}</p>
     <div class="mx-calendar-header">
-      <a
-        v-show="panel !== 'TIME'"
-        class="mx-icon-last-year"
-        @click="handleIconYear(-1)">&laquo;</a>
-      <a
-        v-show="panel === 'DATE'"
-        class="mx-icon-last-month"
-        @click="handleIconMonth(-1)">&lsaquo;</a>
-      <a
-        v-show="panel !== 'TIME'"
-        class="mx-icon-next-year"
-        @click="handleIconYear(1)">&raquo;</a>
-      <a
-        v-show="panel === 'DATE'"
-        class="mx-icon-next-month"
-        @click="handleIconMonth(1)">&rsaquo;</a>
-      <a
-        v-show="panel === 'DATE'"
-        class="mx-current-month"
-        @click="handleBtnMonth">{{months[calendarMonth]}}</a>
-      <a
-        v-show="panel === 'DATE' || panel === 'MONTH'"
-        class="mx-current-year"
-        @click="handleBtnYear">{{calendarYear}}</a>
-      <a
-        v-show="panel === 'YEAR'"
-        class="mx-current-year">{{yearHeader}}</a>
-      <a
-        v-show="panel === 'TIME'"
-        class="mx-time-header"
-        @click="handleTimeHeader">{{timeHeader}}</a>
+      <div class="mx-bordered">
+        <span class="date">{{calendarDate}}</span>
+        <a
+          v-show="panel === 'DATE'"
+          class="mx-current-month"
+          @click="handleBtnMonth"><span>{{monthsFull[calendarMonth]}}</span>,</a>
+        <a
+          v-show="panel === 'DATE' || panel === 'MONTH'"
+          class="mx-current-year"
+          @click="handleBtnYear">
+          <span>{{calendarYear}}</span>
+          <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          	 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+        		<path d="M33,35h-4v4h4V35z M26,21h-4v4h4V21z M33,28h-4v4h4V28z M33,21h-4v4h4V21z M40,21h-4v4h4V21z M40,28h-4v4h4V28z M26,28h-4
+            			v4h4V28z M19,21h-4v4h4V21z M12,28H8v4h4V28z M19,35h-4v4h4V35z M12,35H8v4h4V35z M19,28h-4v4h4V28z M26,35h-4v4h4V35z M39,4V0h-2
+            			v4H11V0H9v4H0v44h48V4H39z M46,46H2V16h44V46z M46,14H2V6h7v2h2V6h26v2h2V6h7V14z"/>
+          </svg>
+        </a>
+      </div>
+      <div class="mx-prev-next">
+        <a
+          v-show="panel === 'DATE'"
+          class="mx-icon-last-month"
+          @click="handleIconMonth(-1)">
+          <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             viewBox="0 0 31.494 31.494" style="enable-background:new 0 0 31.494 31.494;" xml:space="preserve">
+             <path d="M10.273,5.009c0.444-0.444,1.143-0.444,1.587,0c0.429,0.429,0.429,1.143,0,1.571l-8.047,8.047h26.554
+            c0.619,0,1.127,0.492,1.127,1.111c0,0.619-0.508,1.127-1.127,1.127H3.813l8.047,8.032c0.429,0.444,0.429,1.159,0,1.587
+            c-0.444,0.444-1.143,0.444-1.587,0l-9.952-9.952c-0.429-0.429-0.429-1.143,0-1.571L10.273,5.009z"/>
+          </svg>
+        </a>
+        <span class="date-year">{{monthsFull[calendarMonth]}} {{calendarYear}}</span>
+        <a
+          v-show="panel === 'DATE'"
+          class="mx-icon-next-month"
+          @click="handleIconMonth(1)">
+          <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          	 viewBox="0 0 31.49 31.49" style="enable-background:new 0 0 31.49 31.49;" xml:space="preserve">
+             <path d="M21.205,5.007c-0.429-0.444-1.143-0.444-1.587,0c-0.429,0.429-0.429,1.143,0,1.571l8.047,8.047H1.111
+          	C0.492,14.626,0,15.118,0,15.737c0,0.619,0.492,1.127,1.111,1.127h26.554l-8.047,8.032c-0.429,0.444-0.429,1.159,0,1.587
+          	c0.444,0.444,1.159,0.444,1.587,0l9.952-9.952c0.444-0.429,0.444-1.143,0-1.571L21.205,5.007z"/>
+          </svg>
+        </a>
+      </div>
     </div>
     <div class="mx-calendar-content">
       <panel-date
@@ -82,6 +96,7 @@ export default {
   components: { PanelDate, PanelYear, PanelMonth, PanelTime },
   mixins: [locale],
   props: {
+    caption: String,
     value: {
       default: null,
       validator: function (val) {
@@ -142,12 +157,14 @@ export default {
     const now = new Date()
     const calendarYear = now.getFullYear()
     const calendarMonth = now.getMonth()
+    const calendarDate = now.getDate()
     const firstYear = Math.floor(calendarYear / 10) * 10
     return {
       panel: 'DATE',
       dates: [],
       calendarMonth,
       calendarYear,
+      calendarDate,
       firstYear
     }
   },
@@ -160,6 +177,7 @@ export default {
         const now = new Date(val)
         this.calendarYear = now.getFullYear()
         this.calendarMonth = now.getMonth()
+        this.calendarDate = now.getDate()
       }
     },
     timeHeader () {
@@ -173,6 +191,9 @@ export default {
     },
     months () {
       return this.t('months')
+    },
+    monthsFull () {
+      return this.t('monthsFull')
     }
   },
   watch: {

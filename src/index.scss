@@ -1,4 +1,4 @@
-$default-color: #73879c;
+$default-color: #191f20;
 $primary-color: #1284e7;
 
 .mx-datepicker {
@@ -6,7 +6,7 @@ $primary-color: #1284e7;
   display: inline-block;
   width: 210px;
   color: $default-color;
-  font: 14px/1.5 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', sans-serif;
+  font: inherit;
   * {
     box-sizing: border-box;
   }
@@ -23,9 +23,7 @@ $primary-color: #1284e7;
   position: absolute;
   margin-top: 1px;
   margin-bottom: 1px;
-  border: 1px solid #d9d9d9;
-  background-color: #fff;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-color: #fafafa;
   z-index: 1000;
 }
 
@@ -44,16 +42,14 @@ $primary-color: #1284e7;
 .mx-input {
   display: inline-block;
   width: 100%;
-  height: 34px;
-  padding: 6px 30px;
-  padding-left: 10px;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #555;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  height: 40px;
+  padding: 10px;
+  font-size: 15px;
+  line-height: 20px;
+  color: #485254;
+  background-color: rgba(72, 82, 84, 0.1);
+  border: none;
+  border-bottom: 1px solid #485254;
   &:disabled,
   &.disabled {
     opacity: 0.7;
@@ -70,9 +66,11 @@ $primary-color: #1284e7;
   right: 0;
   width: 30px;
   height: 100%;
-  padding: 6px;
-  background-color: #fff;
+  padding: 10px 6px;
+  cursor: pointer;
+  background-color: transparent;
   background-clip: content-box;
+  text-align: center;
 }
 
 .mx-input-icon {
@@ -110,7 +108,7 @@ $primary-color: #1284e7;
 }
 
 .mx-range-wrapper {
-  width: 248px * 2;
+  width: 668px;
   overflow: hidden;
 }
 
@@ -169,19 +167,66 @@ $primary-color: #1284e7;
 .mx-calendar {
   float: left;
   color: $default-color;
-  padding: 6px 12px;
-  font: 14px/1.5 Helvetica Neue,Helvetica,Arial,Microsoft Yahei,sans-serif;
+  padding: 12px 36px 36px;
+  font: inherit;
   * {
     box-sizing: border-box;
+  }
+  &:first-child {
+    padding-right: 18px;
+  }
+  &:last-child {
+    padding-left: 18px;
   }
 }
 
 .mx-calendar-header {
   padding: 0 4px;
-  height: 34px;
-  line-height: 34px;
   text-align: center;
   overflow: hidden;
+  font-size: 14px;
+  .mx-prev-next {
+    padding-top: 30px;
+    padding-bottom: 20px;
+    a {
+      svg {
+        width: 16px;
+        height: 16px;
+        fill: #cccccc;
+      }
+    }
+    .date-year {
+      font-size: 16px;
+      color: #0d5461;
+      text-transform: uppercase;
+    }
+  }
+  .mx-bordered {
+    border: 1px solid #cccccc;
+    text-align: center;
+    width: 100%;
+    padding: 15px 0;
+    color: #0d5461;
+
+    .date {
+      margin: 5px;
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: #0d5461;
+    }
+
+    a {
+      cursor: pointer;
+
+      &:hover span{
+        text-decoration: underline;
+      }
+    }
+  }
+
   > a {
     color: inherit;
     text-decoration: none;
@@ -194,8 +239,13 @@ $primary-color: #1284e7;
     .mx-icon-last-month,
     .mx-icon-next-month {
       padding: 0 6px;
-      font-size: 20px;
-      line-height: 30px;
+      cursor: pointer;
+
+      &:hover {
+        svg {
+          fill: $default-color !important;
+        }
+      }
     }
     .mx-icon-last-month {
       float: left;
@@ -213,26 +263,32 @@ $primary-color: #1284e7;
 }
 
 .mx-calendar-content {
-  width: 32px * 7;
-  height: 32px * 7;
+  width: 280px;
+  height: 280px;
   .cell {
     vertical-align: middle;
     cursor: pointer;
     &:hover {
-      background-color: #eaf8fe;
+      color: #fff;
+      background-color: rgba(46, 89, 97, 0.8);
     }
     &.actived {
       color: #fff;
-      background-color: $primary-color;
+      background-color: rgba(46, 89, 97, 0.8);
     }
     &.inrange {
-      background-color: #eaf8fe;
+      color: #fff;
+      background-color: rgba(46, 89, 97, 0.8);
+
+      &.next-month, &.last-month {
+        background-color: #fff;
+      }
     }
     &.disabled {
       cursor: not-allowed;
       color: #ccc;
       background-color: #f3f3f3;
-    }  
+    }
   }
 }
 
@@ -246,21 +302,32 @@ $primary-color: #1284e7;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
+  th {
+    color: $default-color;
+    font-weight: normal;
+  }
   td, th {
-    font-size: 12px;
-    width: 32px;
-    height: 32px;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     overflow: hidden;
     text-align: center;
   }
   td {
+    border: 1px solid #ccc;
+    background: #fff;
     &.today {
       color: mix(#fff, $primary-color, 10%);
     }
     &.last-month,
     &.next-month {
-      color: #ddd;
+      font-size: 0;
+
+      &:hover {
+        cursor: not-allowed;
+        background-color: #fff;
+      }
     }
   }
 }
