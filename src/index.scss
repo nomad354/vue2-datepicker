@@ -130,11 +130,6 @@ $primary-color: #1284e7;
     &:hover {
       color: mix(#fff, $primary-color, 20%);
     }
-    &:after {
-      content: '|';
-      margin: 0 10px;
-      color: #48576a;
-    }
   }
 }
 

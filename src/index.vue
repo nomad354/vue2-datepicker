@@ -11,6 +11,7 @@
     v-clickoutside="closePopup">
     <div class="mx-input-wrapper"
       @click="showPopup">
+      <span class="current">{{ current }}</span>
       <input
         ref="input"
         type="text"
@@ -22,20 +23,21 @@
         :value="text"
         :placeholder="innerPlaceholder"
         @input="handleInput"
-        @change="handleChange">
-      <span
-        v-if="showClearIcon"
-        class="mx-input-append mx-clear-wrapper"
-        @click.stop="clearDate">
-        <slot name="mx-clear-icon">
-          ×
-        </slot>
-      </span>
+        @change="handleChange"
+        style="display: none;">
     </div>
     <div class="mx-datepicker-popup"
       :style="position"
       v-show="popupVisible"
       ref="calendar">
+      <slot name="header">
+        <div class="mx-shortcuts-wrapper">
+          <button
+            type="button"
+            class="mx-shortcuts"
+            @click="selectDate(today)">back to today</button>
+        </div>
+      </slot>
       <calendar-panel
         v-if="!range"
         v-bind="$attrs"
@@ -100,6 +102,10 @@ export default {
   },
   props: {
     value: null,
+    current: {
+      type: String,
+      default: 'Test'
+    },
     placeholder: {
       type: String,
       default: null
@@ -169,7 +175,8 @@ export default {
       currentValue: this.range ? [null, null] : null,
       userInput: null,
       popupVisible: false,
-      position: {}
+      position: {},
+      today: new Date ()
     }
   },
   watch: {
