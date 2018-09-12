@@ -4,7 +4,7 @@ $primary-color: #1284e7;
 .mx-datepicker {
   position: relative;
   display: inline-block;
-  width: 210px;
+  width: auto;
   color: $default-color;
   font: inherit;
   * {
@@ -25,10 +25,20 @@ $primary-color: #1284e7;
   margin-bottom: 1px;
   background-color: #fafafa;
   z-index: 1000;
+  left: 50%!important;
+  transform: translateX(-50%);
 }
 
 .mx-input-wrapper {
   position: relative;
+  .current {
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
   .mx-clear-wrapper {
     display: none;
   }
@@ -119,6 +129,7 @@ $primary-color: #1284e7;
   line-height: 34px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   .mx-shortcuts {
+    font-size: 12px;
     background: none;
     outline: none;
     border: 0;
@@ -128,7 +139,7 @@ $primary-color: #1284e7;
     white-space: nowrap;
     cursor: pointer;
     &:hover {
-      color: mix(#fff, $primary-color, 20%);
+      color: rgba(46, 89, 97, 0.8);
     }
   }
 }
@@ -314,7 +325,7 @@ $primary-color: #1284e7;
     border: 1px solid #ccc;
     background: #fff;
     &.today {
-      color: mix(#fff, $primary-color, 10%);
+      color: rgba(46, 89, 97, 0.8);
     }
     &.last-month,
     &.next-month {
